@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/Rodney1100/Social-Network-API#readme",
   "dependencies": {
+    "express": "^4.17.3",
     "mongoose": "^6.2.11"
   }
 }
