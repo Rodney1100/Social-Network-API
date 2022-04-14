@@ -1,6 +1,26 @@
 const { Thought, User } = require('../models');
 
 const thoughtController = {
+  //  get all thoughts 
+  getAllThoughts(req, res) {
+    Thought.find({})
+      .select('-__v')
+      .then(dbThoughtData => res.json(dbThoughtData))
+      .catch(err => {
+        console.log(err);
+        res.status(400).json(err);
+      })
+  },
+  //  get one thought 
+  getOneThoughts({ params }, res) {
+    Thought.findOne({ _id: params.id })
+      .select('-__v')
+      .then(dbThoughtData => res.json(dbThoughtData))
+      .catch(err => {
+        console.log(err);
+        res.status(400).json(err);
+      })
+  },
   // add thought to User
   addThought({ params, body }, res) {
     console.log(params);
@@ -49,7 +69,7 @@ const thoughtController = {
         }
         return User.findOneAndUpdate(
           { _id: params.userId },
-          { $pull: {thoughts: params.thoughtId } },
+          { $pull: { thoughts: params.thoughtId } },
           { new: true }
         );
       })
@@ -62,7 +82,7 @@ const thoughtController = {
       })
       .catch(err => res.json(err));
   },
-  
+
   // remove reaction
   removeReaction({ params }, res) {
     Thought.findOneAndUpdate(
